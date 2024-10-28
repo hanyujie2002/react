@@ -43,7 +43,7 @@ export const Seo = withRouter(
     }`;
     // Allow setting a different title for Google results
     const pageTitle =
-      (titleForTitleTag ?? title) + (isHomePage ? '' : ' – React 中文文档');
+      (titleForTitleTag ?? title) + (isHomePage ? '' : ' – React 中英双语文档');
     // Twitter's meta parser is not very good.
     const twitterTitle = pageTitle.replace(/[<>]/g, '');
     let description = isHomePage
