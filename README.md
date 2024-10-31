@@ -1,4 +1,4 @@
-![bilingual badge](https://raw.githubusercontent.com/bilingual-docs/badges/refs/heads/main/zh-en-badge.png)
+[![bilingual badge](https://raw.githubusercontent.com/bilingual-docs/badges/refs/heads/main/zh-en-badge.png)](https://github.com/bilingual-docs/bilingual-docs)
 
 # [React 中英双语对照文档](https://bilingual-react.vercel.app/learn)
 
