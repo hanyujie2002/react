@@ -25,7 +25,7 @@ Structuring state well can make a difference between a component that is pleasan
 ## 构建 state 的原则 | Principles for structuring state {/*principles-for-structuring-state*/}
 
 When you write a component that holds some state, you'll have to make choices about how many state variables to use and what the shape of their data should be. While it's possible to write correct programs even with a suboptimal state structure, there are a few principles that can guide you to make better choices:
-当你编写一个存有 state 的组件时，你需要选择使用多少个 state 变量以及它们都是怎样的数据格式。尽管选择次优的 state 结构下也可以编写正确的程序，但有几个原则可以指导您做出更好的决策：
+当你编写一个存有 state 的组件时，你需要选择使用多少个 state 变量以及它们都是怎样的数据格式。尽管选择次优的 state 结构下也可以编写正确的程序，但有几个原则可以指导你做出更好的决策：
 
 1. **Group related state.** If you always update two or more state variables at the same time, consider merging them into a single state variable.
 - **合并关联的 state**。如果你总是同时更新两个或更多的 state 变量，请考虑将它们合并为一个单独的 state 变量。
@@ -1172,7 +1172,6 @@ export const initialTravelPlan = {
 **Now that the state is "flat" (also known as "normalized"), updating nested items becomes easier.**
 **现在 state 已经“扁平化”（也称为“规范化”），更新嵌套项会变得更加容易。**
 
-In order to remove a place now, you only need to update two levels of state:
 现在要删除一个地点，您只需要更新两个 state 级别：
 
 - The updated version of its *parent* place should exclude the removed ID from its `childIds` array.
@@ -1525,7 +1524,6 @@ You can nest state as much as you like, but making it "flat" can solve numerous 
 
 #### 改善内存使用 | Improving memory usage {/*improving-memory-usage*/}
 
-Ideally, you would also remove the deleted items (and their children!) from the "table" object to improve memory usage. This version does that. It also [uses Immer](/learn/updating-objects-in-state#write-concise-update-logic-with-immer) to make the update logic more concise.
 理想情况下，您还应该从“表”对象中删除已删除的项目（以及它们的子项！）以改善内存使用。还可以 [使用 Immer](/learn/updating-objects-in-state#write-concise-update-logic-with-immer) 使更新逻辑更加简洁。
 
 <Sandpack>
@@ -1890,11 +1888,8 @@ Sometimes, you can also reduce state nesting by moving some of the nested state 
 * 仔细选择你的 state 变量，以避免创建“极难处理”的 state。
 * Structure your state in a way that reduces the chances that you'll make a mistake updating it.
 * 用一种减少出错更新的机会的方式来构建你的 state。
-* Avoid redundant and duplicate state so that you don't need to keep it in sync.
 * 避免冗余和重复的 state，这样您就不需要保持同步。
-* Don't put props *into* state unless you specifically want to prevent updates.
 * 除非您特别想防止更新，否则不要将 props **放入** state 中。 
-* For UI patterns like selection, keep ID or index in state instead of the object itself.
 * 对于选择类型的 UI 模式，请在 state 中保存 ID 或索引而不是对象本身。
 * If updating deeply nested state is complicated, try flattening it.
 * 如果深度嵌套 state 更新很复杂，请尝试将其展开扁平化。
@@ -1905,7 +1900,6 @@ Sometimes, you can also reduce state nesting by moving some of the nested state 
 
 #### 修复一个未更新的组件 | Fix a component that's not updating {/*fix-a-component-thats-not-updating*/}
 
-This `Clock` component receives two props: `color` and `time`. When you select a different color in the select box, the `Clock` component receives a different `color` prop from its parent component. However, for some reason, the displayed color doesn't update. Why? Fix the problem.
 这个 `Clock` 组件接收两个属性：`color` 和 `time`。当您在选择框中选择不同的颜色时，`Clock` 组件将从其父组件接收到一个不同的 `color` 属性。然而，由于某种原因，显示的颜色没有更新。为什么？请修复这个问题。
 
 <Sandpack>
@@ -2359,7 +2353,6 @@ Notice how the event handlers are only concerned with calling `setItems` after t
 
 #### 修复消失的选项 | Fix the disappearing selection {/*fix-the-disappearing-selection*/}
 
-There is a list of `letters` in state. When you hover or focus a particular letter, it gets highlighted. The currently highlighted letter is stored in the `highlightedLetter` state variable. You can "star" and "unstar" individual letters, which updates the `letters` array in state.
 有一个 `letters` 列表在 state 中。当你悬停或聚焦到特定的信件时，它会被突出显示。当前突出显示的信件存储在 `highlightedLetter` state 变量中。您可以“Star”和“Unstar”单个信件，这将更新 state 中的 `letters` 数组。
 
 This code works, but there is a minor UI glitch. When you press "Star" or "Unstar", the highlighting disappears for a moment. However, it reappears as soon as you move your pointer or switch to another letter with keyboard. Why is this happening? Fix it so that the highlighting doesn't disappear after the button click.
@@ -2473,7 +2466,6 @@ li { border-radius: 5px; }
 The problem is that you're holding the letter object in `highlightedLetter`. But you're also holding the same information in the `letters` array. So your state has duplication! When you update the `letters` array after the button click, you create a new letter object which is different from `highlightedLetter`. This is why `highlightedLetter === letter` check becomes `false`, and the highlight disappears. It reappears the next time you call `setHighlightedLetter` when the pointer moves.
 这个问题点在于你将信件对象存储在 `highlightedLetter` 中。但是，你也将相同的信息存储在 `letters` 数组中。因此，你的 state 存在重复！当你在按钮点击后更新 `letters` 数组时，会创建一个新的信件对象，它与 `highlightedLetter` 不同。这就是 `highlightedLetter === letter` 执行变为 `false`，并且高亮消失的原因。当指针移动时下一次调用 `setHighlightedLetter` 时它会重新出现。
 
-To fix the issue, remove the duplication from state. Instead of storing *the letter itself* in two places, store the `highlightedId` instead. Then you can check `isHighlighted` for each letter with `letter.id === highlightedId`, which will work even if the `letter` object has changed since the last render.
 为了解决这个问题，请从 state 中删除重复项。不要在两个地方存储 **信件对象本身**，而是存储 `highlightedId`。然后，您可以使用 `letter.id === highlightedId` 检查每个带有 `isHighlighted` 属性的信件，即使 `letter` 对象在上次渲染后发生了变化，这也是可行的。
 
 <Sandpack>
@@ -2696,7 +2688,6 @@ label { width: 100%; padding: 5px; display: inline-block; }
 
 <Solution>
 
-Instead of a single `selectedId`, keep a `selectedIds` *array* in state. For example, if you select the first and the last letter, it would contain `[0, 2]`. When nothing is selected, it would be an empty `[]` array:
 在 state 中保留一个 `selectedIds` **数组**，而不是单个的 `selectedId`。例如，如果您选择了第一个和最后一个信件，则它将包含 `[0, 2]`。当没有选定任何内容时，它将为空数组 `[]`：
 
 <Sandpack>
